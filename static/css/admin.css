@@ -1,0 +1,142 @@
+/* Admin Dashboard Styles */
+
+.admin-dashboard {
+    min-height: 100vh;
+    background-color: #f8f9fa;
+}
+
+.admin-header {
+    background: linear-gradient(135deg, #0d6efd, #0a58ca);
+    margin-bottom: 2rem;
+}
+
+.admin-avatar {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto;
+}
+
+.admin-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.admin-avatar-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #0d6efd;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    font-weight: bold;
+    border-radius: 50%;
+    border: 3px solid #fff;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.admin-nav {
+    margin-top: 1rem;
+}
+
+.admin-nav .nav-link {
+    color: #495057;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.admin-nav .nav-link:hover {
+    background-color: #e9ecef;
+    color: #0d6efd;
+}
+
+.admin-nav .nav-link.active {
+    background-color: #0d6efd;
+    color: white;
+}
+
+.admin-nav .nav-link i {
+    width: 20px;
+    text-align: center;
+}
+
+/* Card Styles */
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid #e9ecef;
+    padding: 1rem 1.25rem;
+}
+
+/* Table Styles */
+.table {
+    margin-bottom: 0;
+}
+
+.table th {
+    font-weight: 600;
+    color: #495057;
+    border-top: none;
+}
+
+.table td {
+    vertical-align: middle;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .admin-header {
+        text-align: center;
+    }
+    
+    .admin-header .text-md-end {
+        text-align: center !important;
+        margin-top: 1rem;
+    }
+    
+    .col-md-3 {
+        margin-bottom: 2rem;
+    }
+}
+
+/* Dashboard Stats Cards */
+.card.bg-primary,
+.card.bg-success,
+.card.bg-info,
+.card.bg-warning {
+    border: none;
+    border-radius: 0.5rem;
+}
+
+.card-title {
+    font-size: 0.875rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+/* Activity Table */
+.table-responsive {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+/* Badge Styles */
+.badge {
+    padding: 0.5em 1em;
+    font-weight: 500;
+} 

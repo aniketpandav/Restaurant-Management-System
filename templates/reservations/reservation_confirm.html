@@ -1,0 +1,135 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Reservation Confirmation - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Reservation Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Reservation Details</h1>
+        <p class="lead">Your reservation information</p>
+    </div>
+</section>
+
+<!-- Reservation Confirmation Section -->
+<section class="reservation-confirm-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Reservation #{{ reservation.id }}</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-4 mb-md-0">
+                                <h6 class="fw-bold mb-3">Reservation Details</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-calendar-day me-2 text-primary"></i>
+                                        <strong>Date:</strong> {{ reservation.reservation_date|date:"F j, Y" }}
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-clock me-2 text-primary"></i>
+                                        <strong>Time:</strong> {{ reservation.reservation_time }}
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-users me-2 text-primary"></i>
+                                        <strong>Guests:</strong> {{ reservation.number_of_guests }} {% if reservation.number_of_guests == 1 %}Person{% else %}People{% endif %}
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-clipboard-check me-2 text-primary"></i>
+                                        <strong>Status:</strong> 
+                                        <span class="badge bg-{% if reservation.status == 'confirmed' %}success{% elif reservation.status == 'cancelled' %}danger{% else %}warning{% endif %}">
+                                            {{ reservation.get_status_display }}
+                                        </span>
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-chair me-2 text-primary"></i>
+                                        <strong>Table:</strong> 
+                                        {% if reservation.table %}
+                                            Table #{{ reservation.table.table_number }}
+                                        {% else %}
+                                            To be assigned
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-3">Contact Information</h6>
+                                <ul class="list-unstyled">
+                                    <li class="mb-2">
+                                        <i class="fas fa-user me-2 text-primary"></i>
+                                        <strong>Name:</strong> {{ user.get_full_name }}
+                                    </li>
+                                    <li class="mb-2">
+                                        <i class="fas fa-envelope me-2 text-primary"></i>
+                                        <strong>Email:</strong> {{ user.email }}
+                                    </li>
+                                    <li>
+                                        <i class="fas fa-phone me-2 text-primary"></i>
+                                        <strong>Phone:</strong> {{ user.profile.phone_number|default:"Not provided" }}
+                                    </li>
+                                </ul>
+                                
+                                {% if reservation.special_request %}
+                                    <h6 class="fw-bold mt-4 mb-2">Special Requests</h6>
+                                    <p class="mb-0">{{ reservation.special_request }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-white py-3">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a href="{% url 'reservations:reservation_list' %}" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left me-1"></i> Back to Reservations
+                            </a>
+                            {% if reservation.status != 'cancelled' %}
+                                <a href="{% url 'reservations:reservation_cancel' reservation.id %}" class="btn btn-outline-danger">
+                                    <i class="fas fa-times me-1"></i> Cancel Reservation
+                                </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h5 class="card-title">Restaurant Information</h5>
+                        <div class="row">
+                            <div class="col-md-6 mb-3 mb-md-0">
+                                <h6 class="fw-bold mb-2">Address</h6>
+                                <p>115, CHANGA, ANAND, GUJARAT</p>
+                                
+                                <h6 class="fw-bold mb-2 mt-3">Contact</h6>
+                                <p class="mb-0">
+                                    Phone:  +91 9878765445<br>
+                                    Email: info@deliciousbites.com
+                                </p>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="fw-bold mb-2">Hours</h6>
+                                <ul class="list-unstyled">
+                                    <li>Monday - Thursday: 11:00 AM - 10:00 PM</li>
+                                    <li>Friday - Saturday: 11:00 AM - 11:00 PM</li>
+                                    <li>Sunday: 10:00 AM - 9:00 PM</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

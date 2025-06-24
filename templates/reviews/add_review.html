@@ -1,0 +1,97 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Add Review - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Add Review Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Share Your Experience</h1>
+        <p class="lead">We value your feedback! Please take a moment to share your dining experience with us.</p>
+    </div>
+</section>
+
+<!-- Add Review Form -->
+<section class="review-form-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <form method="post" action="{% url 'reviews:add_review' %}">
+                            {% csrf_token %}
+                            
+                            <div class="mb-4">
+                                <label for="menu_item" class="form-label">Which dish are you reviewing? (Optional)</label>
+                                <select name="menu_item" id="menu_item" class="form-select">
+                                    <option value="">-- Select a dish (optional) --</option>
+                                    {% for item in menu_items %}
+                                        <option value="{{ item.id }}">{{ item.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label class="form-label">Your Rating</label>
+                                <div class="rating-select">
+                                    <div class="btn-group" role="group" aria-label="Rating">
+                                        {% for i in "12345" %}
+                                            <input type="radio" class="btn-check" name="rating" id="rating{{ forloop.counter }}" value="{{ forloop.counter }}" 
+                                                {% if forloop.counter == 5 %}checked{% endif %}>
+                                            <label class="btn btn-outline-warning" for="rating{{ forloop.counter }}">
+                                                {{ forloop.counter }} <i class="fas fa-star"></i>
+                                            </label>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="comment" class="form-label">Your Review</label>
+                                <textarea name="comment" id="comment" rows="5" class="form-control" 
+                                    placeholder="Share your experience with us and other customers..." required></textarea>
+                            </div>
+                            
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="{% url 'reviews:review_list' %}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                <button type="submit" class="btn btn-primary">Submit Review</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Rating selection highlight effect
+        const ratingInputs = document.querySelectorAll('input[name="rating"]');
+        const ratingLabels = document.querySelectorAll('.rating-select label');
+        
+        ratingInputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const selectedValue = parseInt(this.value);
+                
+                ratingLabels.forEach((label, index) => {
+                    if (index < selectedValue) {
+                        label.classList.add('active');
+                    } else {
+                        label.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // Trigger change event on the checked input to setup initial state
+        const checkedInput = document.querySelector('input[name="rating"]:checked');
+        if (checkedInput) {
+            checkedInput.dispatchEvent(new Event('change'));
+        }
+    });
+</script>
+{% endblock %} 

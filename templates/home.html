@@ -1,0 +1,405 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delicious Bites - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="container h-100 d-flex align-items-center">
+            <div class="hero-content text-center text-md-start">
+                <h1 class="display-3 fw-bold mb-3">Exquisite Food For <br>Unforgettable Moments</h1>
+                <p class="lead mb-4">Experience culinary excellence with our carefully crafted dishes made from the finest ingredients.</p>
+                <div class="d-flex flex-column flex-md-row gap-3">
+                    <a href="{% url 'menu:menu_list' %}" class="btn btn-primary btn-lg">View Menu</a>
+                    <a href="{% url 'reservations:reservation_form' %}" class="btn btn-outline-light btn-lg">Book a Table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="about-img">
+                    <img src="{% static 'images/about-restaurant.jpg' %}" alt="About Our Restaurant" class="img-fluid rounded">
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="about-content">
+                    <div class="section-header mb-4">
+                        <span class="subtitle" style="font-size: 30px;">Our Story</span>
+                        <h2 class="title">A Culinary Journey Since 2025</h2>
+                    </div>
+                    <p>Welcome to Delicious Bites, where passion meets flavor. Our journey began in 2025 with a simple mission: to create extraordinary dining experiences through exceptional food and warm hospitality.</p>
+                    <p>Our chefs blend traditional techniques with contemporary creativity, using only the finest locally-sourced ingredients to craft dishes that both comfort and inspire. Every plate that leaves our kitchen tells a story of dedication to culinary excellence.</p>
+                    <!-- <div class="mt-4">
+                        <a href="#" class="btn btn-outline-primary">Learn More About Us</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Menu Section -->
+<section class="featured-menu-section py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="subtitle">Delicious Offerings</span>
+            <h2 class="title">Our Featured Dishes</h2>
+            <p class="text-muted">Signature dishes crafted with passion and premium ingredients</p>
+        </div>
+        
+        <div class="row">
+            <!-- Featured Item 1 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 menu-card shadow-sm">
+                    <div class="menu-img-container">
+                        <img src="{% static 'images/food/pasta.jpg' %}" class="card-img-top" alt="Fettuccine Alfredo">
+                        <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">Fettuccine Alfredo</h5>
+                            <span class="price-tag">₹ 150</span>
+                        </div>
+                        <p class="card-text">Creamy fettuccine pasta with our homemade Alfredo sauce, topped with grated Parmesan and fresh parsley.</p>
+                    </div>
+                    <!-- <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-outline-primary w-100">View Details</a>
+                    </div> -->
+                </div>
+            </div>
+            
+            <!-- Featured Item 2 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 menu-card shadow-sm">
+                    <div class="menu-img-container">
+                        <img src="{% static 'images/food/Sandwich.jpg' %}" class="card-img-top" alt="Grilled Sandwich">
+                        <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">Grilled Sandwich</h5>
+                            <span class="price-tag">₹ 280</span>
+                        </div>
+                        <p class="card-text">This hearty sandwich features layers of fresh lettuce, ripe tomato, cheese, and sliced deli meat between two thick slices of multigrain bread, served on a rustic wooden board.</p>
+                    </div>
+                    <!-- <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-outline-primary w-100">View Details</a>
+                    </div> -->
+                </div>
+            </div>
+            
+            <!-- Featured Item 3 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 menu-card shadow-sm">
+                    <div class="menu-img-container">
+                        <img src="{% static 'images/food/dabeli.jpg' %}" class="card-img-top" alt="Dabeli">
+                        <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">Full Loded Dabeli</h5>
+                            <span class="price-tag">₹ 100</span>
+                        </div>
+                        <p class="card-text">Dabeli, is stuffed with spicy potato filling, peanuts, onions, sev, pomegranate, and fresh herbs in a soft bun. It is a popular street food in India.</p>
+                    </div>
+                    <!-- <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-outline-primary w-100">View Details</a>
+                    </div> -->
+                </div>
+            </div>
+            
+            <!-- Featured Item 4 -->
+            <div class="col-md-6 col-lg-3 mb-4">
+                <div class="card h-100 menu-card shadow-sm">
+                    <div class="menu-img-container">
+                        <img src="{% static 'images/food/Tiramisu.jpg' %}" class="card-img-top" alt="Classic Tiramisu">
+                        <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">Featured</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title mb-0">Classic Tiramisu</h5>
+                            <span class="price-tag">₹ 360</span>
+                        </div>
+                        <p class="card-text">Traditional Italian dessert with layers of coffee-soaked ladyfingers and mascarpone cream, dusted with cocoa.</p>
+                    </div>
+                    <!-- <div class="card-footer bg-transparent border-top-0">
+                        <a href="#" class="btn btn-outline-primary w-100">View Details</a>
+                    </div> -->
+                </div>
+            </div>
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'menu:menu_list' %}" class="btn btn-primary">View Full Menu</a>
+        </div>
+    </div>
+</section>
+
+<!-- Reservation Section -->
+<section class="reservation-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="reservation-content text-center text-lg-start">
+                    <div class="section-header mb-4">
+                        <span class="subtitle">Book a Table</span>
+                        <h2 class="title">Reserve Your Dining Experience</h2>
+                    </div>
+                    <p class="mb-4">Whether it's a romantic dinner, family gathering, or business meeting, we're ready to serve you with the perfect ambiance and exquisite food.</p>
+                    <a href="{% url 'reservations:reservation_form' %}" class="btn btn-primary btn-lg">Make a Reservation</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="reservation-img">
+                    <img src="{% static 'images/reservation_1.jpg' %}" alt="Make a Reservation" class="img-fluid rounded">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials-section py-5 bg-light">
+    <div class="container">
+        <div class="section-header text-center mb-5">
+            <span class="subtitle">Guest Reviews</span>
+            <h2 class="title">What Our Customers Say</h2>
+            <p class="text-muted">Hear from our satisfied guests about their dining experience</p>
+        </div>
+        
+        <div class="row">
+            {% for testimonial in testimonials %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 testimonial-card">
+                        <div class="card-body">
+                            <div class="testimonial-rating mb-3">
+                                {% for i in "12345" %}
+                                    {% if forloop.counter <= testimonial.rating %}
+                                        <i class="fas fa-star text-warning"></i>
+                                    {% else %}
+                                        <i class="far fa-star text-warning"></i>
+                                    {% endif %}
+                                {% endfor %}
+                            </div>
+                            <div class="testimonial-text mb-4">
+                                <p class="card-text">{{ testimonial.comment }}</p>
+                            </div>
+                            <div class="testimonial-author d-flex align-items-center">
+                                <div class="author-avatar me-3">
+                                    {% if testimonial.user.profile.image %}
+                                        <img src="{{ testimonial.user.profile.image.url }}" alt="{{ testimonial.user.get_full_name }}" class="rounded-circle" width="50" height="50">
+                                    {% else %}
+                                        <div class="avatar-placeholder rounded-circle bg-primary text-white d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                            {{ testimonial.user.first_name|first|upper }}{{ testimonial.user.last_name|first|upper }}
+                                        </div>
+                                    {% endif %}
+                                </div>
+                                <div class="author-info">
+                                    <h6 class="mb-0">{{ testimonial.user.get_full_name|default:testimonial.user.username }}</h6>
+                                    <small class="text-muted">{{ testimonial.created_at|date:"F Y" }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No testimonials available at the moment.</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4">
+            <a href="{% url 'reviews:review_list' %}" class="btn btn-outline-primary">Read All Reviews</a>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div class="section-header mb-4">
+                    <span class="subtitle">Get in Touch</span>
+                    <h2 class="title">Contact Information</h2>
+                </div>
+                <div class="contact-info">
+                    <div class="d-flex mb-4">
+                        <div class="icon me-3">
+                            <i class="fas fa-map-marker-alt fa-2x text-primary"></i>
+                        </div>
+                        <div class="info">
+                            <h5>Location</h5>
+                            <p>115, CHANGA, ANAND, GUJARAT</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <div class="icon me-3">
+                            <i class="fas fa-phone fa-2x text-primary"></i>
+                        </div>
+                        <div class="info">
+                            <h5>Phone Number</h5>
+                            <p>+91 9878765445</p>
+                        </div>
+                    </div>
+                    <div class="d-flex mb-4">
+                        <div class="icon me-3">
+                            <i class="fas fa-envelope fa-2x text-primary"></i>
+                        </div>
+                        <div class="info">
+                            <h5>Email Address</h5>
+                            <p>info@deliciousbites.com</p>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="icon me-3">
+                            <i class="fas fa-clock fa-2x text-primary"></i>
+                        </div>
+                        <div class="info">
+                            <h5>Opening Hours</h5>
+                            <p>Monday - Friday: 11:00 AM - 10:00 PM<br>
+                            Saturday: 10:00 AM - 11:00 PM<br>
+                            Sunday: 10:00 AM - 9:00 PM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4">Send us a Message</h3>
+                        <form>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Your Name</label>
+                                <input type="text" class="form-control" id="name" placeholder="Enter your name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" placeholder="Enter your email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="subject" class="form-label">Subject</label>
+                                <input type="text" class="form-control" id="subject" placeholder="Enter message subject">
+                            </div>
+                            <div class="mb-3">
+                                <label for="message" class="form-label">Message</label>
+                                <textarea class="form-control" id="message" rows="4" placeholder="Enter your message"></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Send Message</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        height: 80vh;
+        min-height: 500px;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "images/hero-bg.jpg" %}') center/cover no-repeat;
+        color: white;
+    }
+    
+    .hero-content {
+        max-width: 700px;
+    }
+    
+    /* About Section */
+    .sub-title {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        background-color: rgba(var(--bs-primary-rgb), 0.1);
+        color: var(--bs-primary);
+        border-radius: 50px;
+        margin-bottom: 1rem;
+    }
+    
+    .experience-badge {
+        bottom: -1.5rem;
+        right: 2rem;
+        background-color: var(--bs-primary);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    /* Featured Menu Items */
+    .menu-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    
+    .menu-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+    
+    .menu-img-container {
+        position: relative;
+        overflow: hidden;
+        height: 200px;
+    }
+    
+    .menu-img-container img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s ease;
+    }
+    
+    .menu-card:hover .menu-img-container img {
+        transform: scale(1.1);
+    }
+    
+    .price-tag {
+        background-color: var(--bs-primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-weight: bold;
+    }
+    
+    .featured-badge {
+        top: 1rem;
+        left: 1rem;
+        background-color: var(--bs-danger);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        z-index: 1;
+    }
+    
+    /* Reservation CTA */
+    .reservation-cta {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/reservation-bg.jpg" %}') center/cover no-repeat;
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,169 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Order Confirmation - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Confirmation Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Order Confirmed</h1>
+        <p class="lead">Thank you for your order!</p>
+    </div>
+</section>
+
+<!-- Confirmation Section -->
+<section class="order-confirmation-section py-5">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-body text-center p-5">
+                        <div class="confirmation-icon mb-4">
+                            <i class="fas fa-check-circle fa-5x text-success"></i>
+                        </div>
+                        <h2 class="mb-3">Your Order Has Been Placed!</h2>
+                        <p class="lead mb-4">Thank you for your order. We'll start preparing your delicious meal soon!</p>
+                        <div class="order-details text-start bg-light p-4 rounded mb-4">
+                            <div class="row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="fw-bold mb-1">Order Number:</p>
+                                    <p class="mb-0">#{{ order.id }}</p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="fw-bold mb-1">Date & Time:</p>
+                                    <p class="mb-0">{{ order.created_at|date:"F j, Y, g:i a" }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
+                                <div class="col-sm-6 mb-3 mb-sm-0">
+                                    <p class="fw-bold mb-1">Order Status:</p>
+                                    <p class="mb-0">
+                                        <span class="badge bg-warning">{{ order.get_status_display }}</span>
+                                    </p>
+                                </div>
+                                <div class="col-sm-6">
+                                    <p class="fw-bold mb-1">Payment Method:</p>
+                                    <p class="mb-0">{{ order.get_payment_method_display }}</p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="order-summary">
+                                <p class="fw-bold mb-3">Order Summary:</p>
+                                <div class="table-responsive">
+                                    <table class="table table-sm">
+                                        <thead class="table-light">
+                                            <tr>
+                                                <th>Item</th>
+                                                <th class="text-center">Qty</th>
+                                                <th class="text-end">Price</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in order.items.all %}
+                                                <tr>
+                                                    <td>
+                                                        {{ item.menu_item.name }}
+                                                        {% if item.toppings.all %}
+                                                            <small class="d-block text-muted">
+                                                                + {{ item.toppings.count }} toppings
+                                                            </small>
+                                                        {% endif %}
+                                                    </td>
+                                                    <td class="text-center">{{ item.quantity }}</td>
+                                                    <td class="text-end">₹ {{ item.get_total_price }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot class="table-light">
+                                            <tr>
+                                                <th colspan="2" class="text-end">Subtotal:</th>
+                                                <th class="text-end">₹ {{ order.total_price }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th colspan="2" class="text-end">Delivery Fee:</th>
+                                                <th class="text-end">₹ 100.00</th>
+                                            </tr>
+                                            {% if order.total_price >= 500 %}
+                                                <tr class="text-success">
+                                                    <th colspan="2" class="text-end">Discount (orders over ₹500) :</th>
+                                                    <th class="text-end">₹ 100.00</th>
+                                                    
+                                                </tr>
+                                                <tr>
+                                                    <th colspan="2" class="text-end">Total:</th>
+                                                    <th class="text-end">₹ {{ order.total_price }}</th>
+                                                </tr>
+                                            {% else %}
+                                                <tr>
+                                                    <th colspan="2" class="text-end">Total:</th>
+                                                    <th class="text-end">₹ {{ order.total_price | add:5}}</th>
+                                                    <!-- <th class="text-end">₹ {{ order.total_price|add:"5.00" }}</th> -->
+                                                </tr>
+                                            {% endif %}
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="delivery-details">
+                                <p class="fw-bold mb-1">Delivery Address:</p>
+                                <p class="mb-3">{{ order.address }}</p>
+                                <p class="fw-bold mb-1">Contact Number:</p>
+                                <p class="mb-0">{{ order.phone_number }}</p>
+                            </div>
+                        </div>
+                        <!-- <p class="text-muted mb-4">An email confirmation has been sent to {{ user.email }}. You can also view your order status in the "Order History" section of your account.</p> -->
+                        <br>
+                        <div class="d-flex flex-column flex-md-row gap-2 justify-content-center">
+                            <a href="{% url 'orders:order_history' %}" class="btn btn-outline-primary">
+                                <i class="fas fa-history me-2"></i> View Order History
+                            </a>
+                            <a href="{% url 'menu:menu_list' %}" class="btn btn-primary">
+                                <i class="fas fa-utensils me-2"></i> Order More Food
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card shadow">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Questions About Your Order?</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>If you have any questions or need to make changes to your order, please contact us as soon as possible:</p>
+                        <div class="d-flex mb-3">
+                            <div class="me-3">
+                                <i class="fas fa-phone-alt fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Phone</h6>
+                                <p class="mb-0">+91 9878765445</p>
+                            </div>
+                        </div>
+                        <div class="d-flex">
+                            <div class="me-3">
+                                <i class="fas fa-envelope fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h6 class="mb-1">Email</h6>
+                                <p class="mb-0">orders@deliciousbites.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

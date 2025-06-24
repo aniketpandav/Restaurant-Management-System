@@ -1,0 +1,71 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Customer Reviews - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Reviews Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Customer Reviews</h1>
+        <p class="lead">See what our satisfied customers have to say about their dining experience</p>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews-section py-5">
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-md-8 offset-md-2 text-center">
+                <p class="mb-4">At Delicious Bites, we value your feedback. If you've dined with us, please consider sharing your experience.</p>
+                <a href="{% url 'reviews:add_review' %}" class="btn btn-primary">Add Your Review</a>
+            </div>
+        </div>
+        
+        {% if reviews %}
+            <div class="row">
+                {% for review in reviews %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card review-card h-100">
+                            <div class="card-body">
+                                <div class="d-flex justify-content-between mb-3">
+                                    <h5 class="card-title">{{ review.user.get_full_name|default:review.user.username }}</h5>
+                                    <div class="review-rating">
+                                        {% for i in "12345" %}
+                                            {% if forloop.counter <= review.rating %}
+                                                <i class="fas fa-star text-warning"></i>
+                                            {% else %}
+                                                <i class="far fa-star text-warning"></i>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% if review.menu_item %}
+                                    <h6 class="text-muted mb-3">Review for: {{ review.menu_item.name }}</h6>
+                                {% endif %}
+                                <p class="card-text">{{ review.comment }}</p>
+                                <p class="text-muted small">Posted on: {{ review.created_at|date:"F d, Y" }}</p>
+                                
+                                {% if request.user == review.user %}
+                                    <div class="mt-3">
+                                        <a href="{% url 'reviews:edit_review' review.id %}" class="btn btn-sm btn-outline-primary">Edit</a>
+                                        <a href="{% url 'reviews:delete_review' review.id %}" class="btn btn-sm btn-outline-danger">Delete</a>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-md-8 offset-md-2 text-center">
+                    <div class="alert alert-info">
+                        <p class="mb-0">No reviews yet. Be the first to share your experience!</p>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

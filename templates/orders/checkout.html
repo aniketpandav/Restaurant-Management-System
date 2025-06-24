@@ -1,0 +1,247 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Checkout - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Checkout Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Checkout</h1>
+        <p class="lead">Complete your order</p>
+    </div>
+</section>
+
+<!-- Checkout Section -->
+<section class="checkout-section py-5">
+    <div class="container">
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                    {{ message }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+        
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Delivery Details</h5>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" id="checkout-form">
+                            {% csrf_token %}
+                            
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Full Name</label>
+                                <input type="text" class="form-control" id="name" value="{{ user.get_full_name }}" readonly>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email Address</label>
+                                <input type="email" class="form-control" id="email" value="{{ user.email }}" readonly>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="phone_number" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                                <input type="tel" class="form-control" id="phone_number" name="phone_number" value="{{ user.profile.phone_number|default:'' }}" required>
+                                <div class="form-text">Please provide a valid phone number for delivery contact.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Delivery Address <span class="text-danger">*</span></label>
+                                <textarea class="form-control" id="address" name="address" rows="3" required>{{ user.profile.address|default:'' }}</textarea>
+                                <div class="form-text">Please provide your complete delivery address including apartment number, street, city and ZIP code.</div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="special_instructions" class="form-label">Special Instructions (Optional)</label>
+                                <textarea class="form-control" id="special_instructions" name="special_instructions" rows="2" placeholder="Any special instructions for your order?"></textarea>
+                            </div>
+                            
+                            <hr class="my-4">
+                            
+                            <h5 class="mb-3">Payment Method</h5>
+                            
+                            <div class="mb-4">
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="payment_method" id="payment_cash" value="cash" checked>
+                                    <label class="form-check-label" for="payment_cash">
+                                        <i class="fas fa-money-bill-wave me-2 text-success"></i> Cash on Delivery
+                                    </label>
+                                </div>
+                                <div class="form-check mb-2">
+                                    <input class="form-check-input" type="radio" name="payment_method" id="payment_card" value="card">
+                                    <label class="form-check-label" for="payment_card">
+                                        <i class="fas fa-credit-card me-2 text-primary"></i> Credit/Debit Card
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="radio" name="payment_method" id="payment_paypal" value="paypal">
+                                    <label class="form-check-label" for="payment_paypal">
+                                        <i class="fab fa-paypal me-2 text-info"></i> PayPal
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <div class="card mb-4 d-none" id="card-payment-form">
+                                <div class="card-body bg-light">
+                                    <div class="mb-3">
+                                        <label for="card_number" class="form-label">Card Number</label>
+                                        <input type="text" class="form-control" id="card_number" placeholder="1234 5678 9012 3456">
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="expiry_date" class="form-label">Expiry Date</label>
+                                            <input type="text" class="form-control" id="expiry_date" placeholder="MM/YY">
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="cvv" class="form-label">CVV Code</label>
+                                            <input type="text" class="form-control" id="cvv" placeholder="123">
+                                        </div>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="name_on_card" class="form-label">Name on Card</label>
+                                        <input type="text" class="form-control" id="name_on_card">
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-check mb-4">
+                                <input class="form-check-input" type="checkbox" id="terms" required>
+                                <label class="form-check-label" for="terms">
+                                    I agree to the terms and conditions and privacy policy
+                                </label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow mb-4">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0">Order Summary</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="order-summary">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal</span>
+                                <span>₹{{ cart.total_price }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Delivery Fee</span>
+                                <span>₹100.00</span>
+                            </div>
+                            {% if cart.total_price >= 500 %}
+                                <div class="d-flex justify-content-between mb-2 text-success">
+                                    <span>Free Delivery (orders over ₹500)</span>
+                                    <span>-₹100.00</span>
+                                </div>
+                                <hr>
+                                <div class="d-flex justify-content-between mb-3 fw-bold">
+                                    <span>Total</span>
+                                    <span>₹{{ cart.total_price }}</span>
+                                </div>
+                            {% else %}
+                                <hr>
+                                <div class="d-flex justify-content-between mb-3 fw-bold">
+                                    <span>Total</span>
+                                    <span>₹{{ cart.total_price|add:100 }}</span>
+                                </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="order-items mt-4">
+                            <h6 class="mb-3">Items in Your Order</h6>
+                            <div class="order-items-list">
+                                {% for item in cart.items.all %}
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <div>
+                                            <span class="fw-bold">{{ item.quantity }}x</span> {{ item.menu_item.name }}
+                                            {% if item.toppings.all %}
+                                                <small class="d-block text-muted">
+                                                    + {{ item.toppings.count }} toppings
+                                                </small>
+                                            {% endif %}
+                                        </div>
+                                        <span>₹{{ item.get_total_price }}</span>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <button type="submit" form="checkout-form" class="btn btn-primary btn-lg w-100 mt-4">
+                            <i class="fas fa-check-circle me-2"></i> Place Order
+                        </button>
+                        
+                        <a href="{% url 'orders:cart' %}" class="btn btn-outline-secondary w-100 mt-2">
+                            <i class="fas fa-arrow-left me-2"></i> Return to Cart
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="card shadow">
+                    <div class="card-body">
+                        <h6 class="mb-3">Secure Checkout</h6>
+                        <p class="mb-0 small text-muted">Your payment information is processed securely. We do not store your credit card details.</p>
+                        <div class="d-flex justify-content-between mt-3">
+                            <i class="fab fa-cc-visa fa-2x text-muted"></i>
+                            <i class="fab fa-cc-mastercard fa-2x text-muted"></i>
+                            <i class="fab fa-cc-amex fa-2x text-muted"></i>
+                            <i class="fab fa-cc-paypal fa-2x text-muted"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const paymentMethodRadios = document.querySelectorAll('input[name="payment_method"]');
+        const cardPaymentForm = document.getElementById('card-payment-form');
+        
+        paymentMethodRadios.forEach(function(radio) {
+            radio.addEventListener('change', function() {
+                if (this.value === 'card') {
+                    cardPaymentForm.classList.remove('d-none');
+                } else {
+                    cardPaymentForm.classList.add('d-none');
+                }
+            });
+        });
+        
+        // Form validation
+        const checkoutForm = document.getElementById('checkout-form');
+        checkoutForm.addEventListener('submit', function(event) {
+            const phoneNumber = document.getElementById('phone_number').value.trim();
+            const address = document.getElementById('address').value.trim();
+            
+            if (!phoneNumber) {
+                event.preventDefault();
+                alert('Please provide a phone number');
+                return false;
+            }
+            
+            if (!address) {
+                event.preventDefault();
+                alert('Please provide a delivery address');
+                return false;
+            }
+            
+            const terms = document.getElementById('terms');
+            if (!terms.checked) {
+                event.preventDefault();
+                alert('Please agree to the terms and conditions');
+                return false;
+            }
+        });
+    });
+</script>
+{% endblock %} 

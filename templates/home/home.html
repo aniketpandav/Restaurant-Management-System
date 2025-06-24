@@ -1,0 +1,293 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delicious Bites - Home{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-container">
+        <div class="container h-100 d-flex align-items-center">
+            <div class="hero-content text-center text-md-start">
+                <h1 class="display-3 fw-bold mb-3">Exquisite Food For <br>Unforgettable Moments</h1>
+                <p class="lead mb-4">Experience culinary excellence with our carefully crafted dishes made from the finest ingredients.</p>
+                <div class="d-flex flex-column flex-md-row gap-3">
+                    <a href="{% url 'menu:menu_list' %}" class="btn btn-primary btn-lg">View Menu</a>
+                    <a href="{% url 'reservations:reservation_form' %}" class="btn btn-outline-light btn-lg">Book a Table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="img-container position-relative">
+                    <img src="{% static 'images/about-restaurant.jpg' %}" alt="Restaurant Interior" class="img-fluid rounded-3 shadow">
+                    <div class="experience-badge position-absolute shadow-lg">
+                        <span class="fs-1 fw-bold">15</span>
+                        <span class="text-uppercase">Years of Excellence</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="section-title mb-4">
+                    <span class="sub-title">Our Story</span>
+                    <h2 class="display-5 fw-bold">Passion for Food, <br>Dedication to Service</h2>
+                </div>
+                <p class="lead mb-4">Founded in 2010, Delicious Bites has been serving exquisite cuisine that combines traditional recipes with modern culinary techniques.</p>
+                <p class="mb-4">Our chefs bring years of international experience to create dishes that not only taste exceptional but are presented as works of art. We source only the freshest local ingredients, supporting our community of farmers and producers.</p>
+                <div class="features row g-4 mb-4">
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-leaf fs-4 me-3 text-primary"></i>
+                            <span>Fresh Ingredients</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-utensils fs-4 me-3 text-primary"></i>
+                            <span>Expert Chefs</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-award fs-4 me-3 text-primary"></i>
+                            <span>Award Winning</span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-glass-cheers fs-4 me-3 text-primary"></i>
+                            <span>Perfect Ambience</span>
+                        </div>
+                    </div>
+                </div>
+                <a href="#" class="btn btn-primary">Discover More</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Menu Items Section -->
+<section class="featured-menu py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="sub-title">Special Selection</span>
+            <h2 class="display-5 fw-bold">Our Featured Dishes</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Discover our chef's special selection of dishes that have won the hearts of our customers.</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for item in featured_items %}
+                <div class="col-md-6 col-lg-3">
+                    <div class="card menu-card h-100 border-0 shadow-sm">
+                        <div class="featured-badge position-absolute">
+                            <i class="fas fa-star"></i> Featured
+                        </div>
+                        <img src="{{ item.image.url }}" class="card-img-top menu-img" alt="{{ item.name }}">
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <h5 class="card-title mb-0">{{ item.name }}</h5>
+                                <span class="badge bg-primary">₹{{ item.price }}</span>
+                            </div>
+                            <p class="card-text small text-muted">{{ item.description|truncatechars:100 }}</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a href="{% url 'menu:menu_item_detail' item.id %}" class="btn btn-outline-primary btn-sm">View Details</a>
+                                <a href="{% url 'orders:add_to_cart' item.id %}" class="btn btn-primary btn-sm">
+                                    <i class="fas fa-shopping-cart me-1"></i> Add to Cart
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>Featured dishes coming soon!</p>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-5">
+            <a href="{% url 'menu:menu_list' %}" class="btn btn-outline-primary btn-lg">View Full Menu</a>
+        </div>
+    </div>
+</section>
+
+<!-- Reservation CTA Section -->
+<section class="reservation-cta py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto">
+                <div class="cta-card bg-white rounded-4 shadow-lg p-5 text-center">
+                    <h2 class="display-6 fw-bold mb-3">Reserve Your Table Today</h2>
+                    <p class="lead mb-4">Enjoy a memorable dining experience with your family and friends. Book a table now to avoid waiting.</p>
+                    <a href="{% url 'reservations:reservation_form' %}" class="btn btn-lg btn-primary">Book a Table</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonials py-5 bg-light">
+    <div class="container">
+        <div class="text-center mb-5">
+            <span class="sub-title">Testimonials</span>
+            <h2 class="display-5 fw-bold">What Our Customers Say</h2>
+            <p class="lead mx-auto" style="max-width: 700px;">Hear from our satisfied customers about their dining experience with us.</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for review in testimonials %}
+                <div class="col-md-6 col-lg-4">
+                    <div class="card testimonial-card h-100 border-0 shadow-sm p-4">
+                        <div class="rating mb-3">
+                            {% for i in "12345" %}
+                                {% if forloop.counter <= review.rating %}
+                                    <i class="fas fa-star text-warning"></i>
+                                {% else %}
+                                    <i class="far fa-star text-warning"></i>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                        <p class="card-text mb-4">"{{ review.comment|truncatechars:150 }}"</p>
+                        <div class="d-flex align-items-center mt-auto">
+                            <img src="{{ review.user.profile.profile_image.url }}" class="rounded-circle" width="50" height="50" alt="{{ review.user.username }}">
+                            <div class="ms-3">
+                                <h6 class="mb-0">{{ review.user.get_full_name|default:review.user.username }}</h6>
+                                <small class="text-muted">{{ review.created_at|date:"F d, Y" }}</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <p>No testimonials yet. Be the first to leave a review!</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Hero Section */
+    .hero-section {
+        position: relative;
+        height: 80vh;
+        min-height: 500px;
+        background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('{% static "images/hero-bg.jpg" %}') center/cover no-repeat;
+        color: white;
+    }
+    
+    .hero-content {
+        max-width: 700px;
+    }
+    
+    /* About Section */
+    .sub-title {
+        display: inline-block;
+        padding: 0.3rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 500;
+        text-transform: uppercase;
+        background-color: rgba(var(--bs-primary-rgb), 0.1);
+        color: var(--bs-primary);
+        border-radius: 50px;
+        margin-bottom: 1rem;
+    }
+    
+    .experience-badge {
+        bottom: -1.5rem;
+        right: 2rem;
+        background-color: var(--bs-primary);
+        color: white;
+        padding: 1.5rem;
+        border-radius: 50%;
+        width: 120px;
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        line-height: 1.2;
+    }
+    
+    /* Featured Menu Items */
+    .menu-card {
+        transition: transform 0.3s ease;
+        overflow: hidden;
+    }
+    
+    .menu-card:hover {
+        transform: translateY(-10px);
+    }
+    
+    .menu-img {
+        height: 200px;
+        object-fit: cover;
+    }
+    
+    .featured-badge {
+        top: 1rem;
+        left: 1rem;
+        background-color: var(--bs-primary);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 50px;
+        font-size: 0.75rem;
+        z-index: 1;
+    }
+    
+    /* Reservation CTA */
+    .reservation-cta {
+        background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('{% static "images/reservation-bg.jpg" %}') center/cover no-repeat;
+        padding: 5rem 0;
+    }
+    
+    /* Testimonial Cards */
+    .testimonial-card {
+        border-radius: 1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .testimonial-card:hover {
+        transform: translateY(-10px);
+    }
+</style>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Add animations when scrolling
+    document.addEventListener('DOMContentLoaded', function() {
+        const sections = document.querySelectorAll('section');
+        
+        const options = {
+            root: null,
+            threshold: 0.15,
+            rootMargin: "-50px"
+        };
+        
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate__animated', 'animate__fadeIn');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, options);
+        
+        sections.forEach(section => {
+            section.style.opacity = "0";
+            observer.observe(section);
+        });
+    });
+</script>
+{% endblock %} 

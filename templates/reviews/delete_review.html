@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Delete Review - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Delete Review Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Delete Review</h1>
+        <p class="lead">Are you sure you want to delete your review?</p>
+    </div>
+</section>
+
+<!-- Delete Review Confirmation -->
+<section class="delete-review-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h4 class="card-title mb-4">Confirm Deletion</h4>
+                        
+                        <div class="review-preview mb-4 p-3 border rounded">
+                            <div class="mb-3">
+                                <strong>Rating:</strong>
+                                <span class="ms-2">
+                                    {% for i in "12345" %}
+                                        {% if forloop.counter <= review.rating %}
+                                            <i class="fas fa-star text-warning"></i>
+                                        {% else %}
+                                            <i class="far fa-star text-warning"></i>
+                                        {% endif %}
+                                    {% endfor %}
+                                </span>
+                            </div>
+                            
+                            {% if review.menu_item %}
+                                <div class="mb-3">
+                                    <strong>Menu Item:</strong> {{ review.menu_item.name }}
+                                </div>
+                            {% endif %}
+                            
+                            <div class="mb-3">
+                                <strong>Your Review:</strong>
+                                <p class="mt-2">{{ review.comment }}</p>
+                            </div>
+                            
+                            <div class="text-muted small">
+                                Posted on: {{ review.created_at|date:"F d, Y" }}
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            This action cannot be undone. Your review will be permanently deleted.
+                        </div>
+                        
+                        <form method="post" action="{% url 'reviews:delete_review' review.id %}">
+                            {% csrf_token %}
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                                <a href="{% url 'reviews:review_list' %}" class="btn btn-outline-secondary me-md-2">Cancel</a>
+                                <button type="submit" class="btn btn-danger">Delete Review</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

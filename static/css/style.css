@@ -1,0 +1,503 @@
+/*
+* Main stylesheet for Delicious Bites Restaurant
+*/
+
+/* Global Styles */
+:root {
+  --primary-color: #fb8500;
+  --secondary-color: #219ebc;
+  --dark-color: #023047;
+  --light-color: #f8f9fa;
+  --gray-color: #6c757d;
+  --success-color: #28a745;
+  --danger-color: #dc3545;
+  --transition: all 0.3s ease;
+}
+
+[data-bs-theme="light"] {
+  --bs-primary: var(--primary-color);
+  --bs-navbar-bg: #ffffff;
+  --bs-body-bg: #ffffff;
+  --bs-body-color: #333333;
+  --bs-card-bg: #ffffff;
+  --bs-secondary-bg: #f8f9fa;
+}
+
+[data-bs-theme="dark"] {
+  --bs-primary: var(--primary-color);
+  --bs-navbar-bg: #1a1a1a;
+  --bs-body-bg: #121212;
+  --bs-body-color: #f8f9fa;
+  --bs-card-bg: #2a2a2a;
+  --bs-secondary-bg: #333333;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  line-height: 1.6;
+  color: var(--bs-body-color);
+  background-color: var(--bs-body-bg);
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+  background-color: var(--danger-color);
+  border-color: var(--bs-body-bg);
+}
+
+.text-primary {
+  color: var(--primary-color) !important;
+}
+
+/* Navigation */
+.navbar {
+  background-color: var(--bs-navbar-bg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: var(--transition);
+}
+
+.navbar-brand {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.nav-link {
+  font-weight: 500;
+  padding: 0.5rem 1rem !important;
+  transition: var(--transition);
+}
+
+.nav-link:hover {
+  color: var(--primary-color) !important;
+}
+
+.theme-toggle {
+  background: none;
+  border: none;
+  color: var(--bs-body-color);
+  padding: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.theme-toggle:focus {
+  box-shadow: none;
+}
+
+/* Hero Section */
+.hero-section {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Cards */
+.card {
+  border: none;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  transition: var(--transition);
+  background-color: var(--bs-card-bg);
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu Cards */
+.menu-card .card-img-top {
+  height: 200px;
+  object-fit: cover;
+}
+
+/* Back to Top Button */
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  opacity: 0.8;
+  transition: var(--transition);
+}
+
+.back-to-top:hover {
+  opacity: 1;
+}
+
+/* Footer */
+.footer {
+  background-color: var(--bs-secondary-bg);
+}
+
+.social-icons a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
+  color: white;
+  transition: var(--transition);
+}
+
+.social-icons a:hover {
+  background-color: var(--secondary-color);
+  transform: translateY(-3px);
+}
+
+/* Form Styling */
+.form-control {
+  border-radius: 0.25rem;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  border: 1px solid #ced4da;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-body-color);
+}
+
+.form-control:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 0.2rem rgba(251, 133, 0, 0.25);
+}
+
+/* Cart Badge */
+.cart-badge {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Custom Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.5s ease forwards;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+  .navbar-collapse {
+    background-color: var(--bs-navbar-bg);
+    padding: 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  }
+  
+  .hero-content {
+    text-align: center !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    height: 60vh;
+  }
+  
+  .experience-badge {
+    width: 100px;
+    height: 100px;
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-section {
+    height: 50vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2rem;
+  }
+}
+
+/* General Styles */
+body {
+  font-family: 'Roboto', sans-serif;
+  color: #333;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+.section-header .subtitle {
+  color: #ff4500;
+  font-weight: 500;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.section-header .title {
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+/* Navigation */
+.navbar {
+  background-color: rgba(255, 255, 255, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 15px 0;
+}
+
+.navbar-brand span {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+.navbar .nav-link {
+  font-weight: 500;
+  padding: 8px 16px !important;
+}
+
+.cart-badge {
+  transform: translate(-50%, -50%) !important;
+}
+
+/* Hero Section */
+.hero-section {
+  height: 80vh;
+  min-height: 500px;
+  position: relative;
+  color: white;
+}
+
+.hero-container {
+  position: relative;
+  height: 100%;
+  background: url('../images/hero-bg.jpg') no-repeat center center;
+  background-size: cover;
+  z-index: 1;
+}
+
+.hero-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: -1;
+}
+
+/* About Section */
+.about-section {
+  padding: 80px 0;
+}
+
+.about-img img {
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Menu Card */
+.menu-card {
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.menu-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.menu-img-container {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+}
+
+.menu-img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.price-tag {
+  color: #ff4500;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+/* Reservation Section */
+.reservation-section {
+  background: url('../images/reservation-bg.jpg') no-repeat center center;
+  background-size: cover;
+  position: relative;
+  color: white;
+  padding: 80px 0;
+  z-index: 1;
+}
+
+.reservation-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: -1;
+}
+
+/* Testimonials */
+.testimonial-card {
+  border: none;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+/* Footer */
+.footer {
+  background-color: #1d1d1d;
+  color: #fff;
+}
+
+.footer h5 {
+  color: #fff;
+  margin-bottom: 1.5rem;
+  font-weight: 700;
+}
+
+.footer p, .footer ul li {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  background-color: rgba(255, 255, 255, 0.1);
+  color: #fff;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 36px;
+  transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+  background-color: #ff4500;
+  color: #fff;
+}
+
+/* Dark Mode Styles */
+[data-bs-theme="dark"] {
+  --bs-body-bg: #121212;
+  --bs-body-color: #f8f9fa;
+}
+
+[data-bs-theme="dark"] .navbar {
+  background-color: rgba(33, 33, 33, 0.95);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+[data-bs-theme="dark"] .card {
+  background-color: #212121;
+  border-color: #333;
+}
+
+[data-bs-theme="dark"] .bg-light {
+  background-color: #1d1d1d !important;
+}
+
+[data-bs-theme="dark"] .text-muted {
+  color: #adb5bd !important;
+}
+
+/* Page Banner */
+.page-banner {
+  background-color: #f8f9fa;
+  padding: 60px 0;
+}
+
+[data-bs-theme="dark"] .page-banner {
+  background-color: #1d1d1d;
+}
+
+/* Rating selection in reviews */
+.rating-select .btn.active {
+  background-color: #ffc107;
+  border-color: #ffc107;
+  color: #000;
+}
+
+/* Media Queries */
+@media (max-width: 991.98px) {
+  .hero-section {
+    height: 70vh;
+  }
+}
+
+@media (max-width: 767.98px) {
+  .hero-section {
+    height: 60vh;
+  }
+  
+  .about-section, .reservation-section {
+    padding: 60px 0;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .hero-section {
+    height: 50vh;
+  }
+  
+  .hero-content h1 {
+    font-size: 2.5rem;
+  }
+}
+
+/* Remove Order History Styles */
+/* Order History Styles */
+.order-history-section .btn-sm {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+.order-history-section .d-flex.gap-2 {
+    gap: 0.5rem;
+}
+
+.order-history-section .collapse-row {
+    background-color: #f8f9fa;
+}
+
+.order-history-section .collapse {
+    transition: all 0.3s ease;
+}
+
+.order-history-section .alert {
+    margin-bottom: 1.5rem;
+} 

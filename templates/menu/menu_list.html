@@ -1,0 +1,173 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Menu - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Menu Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Our Menu</h1>
+        <p class="lead">Explore our carefully curated selection of delicious dishes</p>
+    </div>
+</section>
+
+<!-- Menu Filter Section -->
+<section class="menu-filter-section py-4 bg-light">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="filter-controls d-flex flex-wrap justify-content-center">
+                    <button class="btn btn-outline-primary me-2 mb-2 filter-btn active" data-filter="all">All</button>
+                    {% for category in categories %}
+                        <button class="btn btn-outline-primary me-2 mb-2 filter-btn" 
+                                data-filter="{{ category.name|lower|slugify }}">
+                            {{ category.name }}
+                        </button>
+                    {% endfor %}
+                </div>
+                <div class="dietary-filters mt-3 d-flex flex-wrap justify-content-center">
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="vegetarian-filter">
+                        <label class="form-check-label" for="vegetarian-filter">Vegetarian</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" id="gluten-free-filter">
+                        <label class="form-check-label" for="gluten-free-filter">Gluten Free</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Menu Items Section -->
+<section class="menu-items-section py-5">
+    <div class="container">
+        <div class="row menu-items">
+            {% for item in menu_items %}
+                <div class="col-md-6 col-lg-4 mb-4 menu-item" 
+                     data-category="{{ item.category.name|lower|slugify }}"
+                     data-vegetarian="{{ item.is_vegetarian|lower }}"
+                     data-gluten-free="{{ item.is_gluten_free|lower }}">
+                    <div class="card h-100 menu-card">
+                        <div class="menu-img-container">
+                            {% if item.image %}
+                                <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                            {% else %}
+                                <img src="{% static 'images/placeholder-food.jpg' %}" class="card-img-top" alt="{{ item.name }}">
+                            {% endif %}
+                            {% if item.is_featured %}
+                                <span class="badge bg-danger position-absolute top-0 end-0 mt-2 me-2">Featured</span>
+                            {% endif %}
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                <h5 class="card-title mb-0">{{ item.name }}</h5>
+                                <span class="price-tag">₹ {{ item.price }}</span>
+                            </div>
+                            <p class="card-text">{{ item.description }}</p>
+                            <div class="dietary-info">
+                                {% if item.is_vegetarian %}
+                                    <span class="badge bg-success me-1">Vegetarian</span>
+                                {% endif %}
+                                {% if item.is_gluten_free %}
+                                    <span class="badge bg-info me-1">Gluten Free</span>
+                                {% endif %}
+                                {% if item.spicy_level > 0 %}
+                                    <span class="badge bg-warning text-dark">
+                                        Spicy 
+                                        {% for i in "123456" %}
+                                            {% if forloop.counter <= item.spicy_level %}
+                                                🌶️
+                                            {% endif %}
+                                        {% endfor %}
+                                    </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="card-footer bg-transparent">
+                            <form action="{% url 'orders:add_to_cart' item.id %}" method="post" class="d-flex">
+                                {% csrf_token %}
+                                <input type="number" name="quantity" value="1" min="1" max="10" class="form-control me-2">
+                                <button type="submit" class="btn btn-primary">Add to Cart</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <div class="alert alert-info">
+                        No menu items available at the moment. Please check back later.
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Category filtering
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        filterBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                // Remove active class from all buttons
+                filterBtns.forEach(b => b.classList.remove('active'));
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                
+                const filter = this.getAttribute('data-filter');
+                
+                // Show/hide items based on category filter
+                menuItems.forEach(item => {
+                    if (filter === 'all' || item.getAttribute('data-category') === filter) {
+                        item.style.display = '';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Reapply dietary filters
+                applyDietaryFilters();
+            });
+        });
+        
+        // Dietary restriction filtering
+        const vegetarianFilter = document.getElementById('vegetarian-filter');
+        const glutenFreeFilter = document.getElementById('gluten-free-filter');
+        
+        function applyDietaryFilters() {
+            const isVegetarianChecked = vegetarianFilter.checked;
+            const isGlutenFreeChecked = glutenFreeFilter.checked;
+            
+            menuItems.forEach(item => {
+                if (item.style.display !== 'none') {
+                    let shouldShow = true;
+
+                    
+                    
+                    
+                    if (isVegetarianChecked && item.getAttribute('data-vegetarian') !== 'true') {
+                        shouldShow = false;
+                    }
+                    
+                    if (isGlutenFreeChecked && item.getAttribute('data-gluten-free') !== 'true') {
+                        shouldShow = false;
+                    }
+                    
+                    item.style.display = shouldShow ? '' : 'none';
+                }
+            });
+        }
+        
+        vegetarianFilter.addEventListener('change', applyDietaryFilters);
+        glutenFreeFilter.addEventListener('change', applyDietaryFilters);
+    });
+</script>
+{% endblock %} 

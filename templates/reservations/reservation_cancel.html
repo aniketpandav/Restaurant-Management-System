@@ -1,0 +1,72 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Cancel Reservation - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Cancel Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">Cancel Reservation</h1>
+        <p class="lead">We're sorry to see you cancel</p>
+    </div>
+</section>
+
+<!-- Cancel Confirmation Section -->
+<section class="cancel-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h3 class="card-title text-center mb-4">Are you sure you want to cancel this reservation?</h3>
+                        
+                        <div class="reservation-details mb-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Reservation ID:</strong><br> #{{ reservation.id }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Name:</strong><br> {{ reservation.special_request }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Date:</strong><br> {{ reservation.reservation_date|date:"F j, Y" }}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><strong>Time:</strong><br> {{ reservation.reservation_time }}</p>
+                                </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><strong>Number of Guests:</strong><br> {{ reservation.number_of_guests }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="alert alert-warning">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            <span>Cancellations cannot be undone. If you wish to dine with us, you'll need to make a new reservation, subject to availability.</span>
+                        </div>
+                        
+                        <form method="post" class="mt-4">
+                            {% csrf_token %}
+                            <div class="d-flex justify-content-center">
+                                <a href="{% url 'reservations:reservation_list' %}" class="btn btn-outline-secondary me-3">
+                                    <i class="fas fa-arrow-left me-1"></i> Keep Reservation
+                                </a>
+                                <button type="submit" class="btn btn-danger">
+                                    <i class="fas fa-times me-1"></i> Yes, Cancel Reservation
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

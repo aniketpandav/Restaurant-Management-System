@@ -1,0 +1,138 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}Make a Reservation - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Reservation Banner -->
+<section class="page-banner reservation-bg">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4 text-dark">Reserve a Table</h1>
+        <p class="lead text-dark">Book your dining experience with us</p>
+    </div>
+</section>
+
+<!-- Reservation Form Section -->
+<section class="reservation-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow">
+                    <div class="card-body p-4">
+                        <h3 class="card-title mb-4 text-center">Table Reservation</h3>
+                        
+                        {% if messages %}
+                            {% for message in messages %}
+                                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                        
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="reservation_date" class="form-label">Date</label>
+                                    <input type="date" name="reservation_date" id="reservation_date" class="form-control" required min="{{ today|date:'Y-m-d' }}">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="reservation_time" class="form-label">Time</label>
+                                    <select name="reservation_time" id="reservation_time" class="form-select" required>
+                                        <option value="" disabled selected>Select a time</option>
+                                        {% for time in available_times %}
+                                            <option value="{{ time }}">{{ time }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="number_of_guests" class="form-label">Number of Guests</label>
+                                <select name="number_of_guests" id="number_of_guests" class="form-select" required>
+                                    <option value="1">1 Person</option>
+                                    <option value="2">2 People</option>
+                                    <option value="3">3 People</option>
+                                    <option value="4">4 People</option>
+                                    <option value="5">5 People</option>
+                                    <option value="6">6 People</option>
+                                    <option value="7">7 People</option>
+                                    <option value="8">8 People</option>
+                                    <option value="9">9 People</option>
+                                    <option value="10">10 People</option>
+                                </select>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <label for="special_request" class="form-label">Special Requests</label>
+                                <textarea name="special_request" id="special_request" class="form-control" rows="3" placeholder="Any special requests? (e.g., allergies, special occasion, seating preferences)"></textarea>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Book Table</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                
+                <div class="card shadow mt-4" style="color: black;">
+                    <div class="card-body">
+                        <h5 class="card-title">Reservation Policy</h5>
+                        <ul class="list-unstyled">
+                            <li><i class="fas fa-info-circle text-primary me-2"></i> Reservations can be made up to 30 days in advance</li>
+                            <li><i class="fas fa-info-circle text-primary me-2"></i> For parties larger than 10, please call us directly</li>
+                            <li><i class="fas fa-info-circle text-primary me-2"></i> We hold reservations for 15 minutes past the reserved time</li>
+                            <li><i class="fas fa-info-circle text-primary me-2"></i> Cancellations should be made at least 4 hours before reservation time</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="card shadow mb-4"  style="color: black;">
+                    <div class="card-body">
+                        <h5 class="card-title">Restaurant Hours</h5>
+                        <ul class="list-unstyled">
+                            <li class="mb-2"><strong>Monday - Thursday:</strong> 11:00 AM - 10:00 PM</li>
+                            <li class="mb-2"><strong>Friday - Saturday:</strong> 11:00 AM - 11:00 PM</li>
+                            <li class="mb-2"><strong>Sunday:</strong> 10:00 AM - 9:00 PM</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="card shadow" style="color: black;">
+                    <div class="card-body">
+                        <h5 class="card-title">Contact Us</h5>
+                        <p>For immediate assistance or special arrangements, please contact us directly:</p>
+                        <p><i class="fas fa-phone me-2 text-primary"></i>  +91 9878765445</p>
+                        <p><i class="fas fa-envelope me-2 text-primary"></i> reservations@deliciousbites.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- JavaScript to initialize date picker with today's date -->
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('reservation_date').min = today;
+        document.getElementById('reservation_date').value = today;
+    });
+</script>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .reservation-bg {
+        background-image: url('{% static "images/reservation-bg.jpg" %}');
+        background-size: cover;
+        background-position: center;
+    }
+</style>
+{% endblock %}
+{% endblock %} 

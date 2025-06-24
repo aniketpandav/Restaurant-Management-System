@@ -1,0 +1,84 @@
+/* Profile Page Styles */
+
+.profile-card {
+    border: none;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+}
+
+.profile-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-placeholder {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #0d6efd; /* Bootstrap primary color */
+    color: white;
+    font-size: 3rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-placeholder {
+        width: 120px;
+        height: 120px;
+        font-size: 2.5rem;
+    }
+}
+
+/* Profile section spacing */
+.profile-section {
+    padding: 3rem 0;
+}
+
+/* Card hover effects */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Profile Card Styles */
+.profile-card .card-header {
+    background-color: #f8f9fa;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.profile-card .list-group-item {
+    border-left: none;
+    border-right: none;
+    padding: 0.75rem 1.25rem;
+}
+
+.profile-card .list-group-item:first-child {
+    border-top: none;
+}
+
+.profile-card .list-group-item:last-child {
+    border-bottom: none;
+}
+
+.profile-card .list-group-item.active {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* Profile Information Styles */
+.profile-info-label {
+    font-weight: 600;
+    color: #495057;
+}
+
+.profile-info-value {
+    color: #6c757d;
+} 

@@ -1,0 +1,122 @@
+{% extends 'base/base.html' %}
+{% load static %}
+
+{% block title %}{{ menu_item.name }} - Delicious Bites{% endblock %}
+
+{% block content %}
+<!-- Menu Item Banner -->
+<section class="page-banner">
+    <div class="container text-center py-5">
+        <h1 class="display-4 fw-bold mb-4">{{ menu_item.name }}</h1>
+        <p class="lead">{{ menu_item.category.name }}</p>
+    </div>
+</section>
+
+<!-- Menu Item Detail Section -->
+<section class="menu-item-detail-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="menu-item-image">
+                    {% if menu_item.image %}
+                        <img src="{{ menu_item.image.url }}" class="img-fluid rounded" alt="{{ menu_item.name }}">
+                    {% else %}
+                        <img src="{% static 'images/placeholder-food.jpg' %}" class="img-fluid rounded" alt="{{ menu_item.name }}">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6 mb-4">
+                <div class="menu-item-info">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2>{{ menu_item.name }}</h2>
+                        <span class="price-tag h3">₹{{ menu_item.price }}</span>
+                    </div>
+                    
+                    <div class="dietary-info mb-3">
+                        {% if menu_item.is_vegetarian %}
+                            <span class="badge bg-success me-1">Vegetarian</span>
+                        {% endif %}
+                        {% if menu_item.is_vegan %}
+                            <span class="badge bg-success me-1">Vegan</span>
+                        {% endif %}
+                        {% if menu_item.is_gluten_free %}
+                            <span class="badge bg-info me-1">Gluten Free</span>
+                        {% endif %}
+                        {% if menu_item.spicy_level > 0 %}
+                            <span class="badge bg-warning text-dark">
+                                Spicy 
+                                {% for i in "123456" %}
+                                    {% if forloop.counter <= menu_item.spicy_level %}
+                                        🌶️
+                                    {% endif %}
+                                {% endfor %}
+                            </span>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="description mb-4">
+                        <p class="lead">{{ menu_item.description }}</p>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">Nutritional Information</h5>
+                            <div class="row">
+                                <div class="col-6">
+                                    <p><strong>Calories:</strong> {{ menu_item.calories|default:"N/A" }}</p>
+                                </div>
+                                <div class="col-6">
+                                    <p><strong>Preparation Time:</strong> {{ menu_item.prep_time|default:"15" }} minutes</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="add-to-cart-section">
+                        <form action="{% url 'orders:add_to_cart' menu_item.id %}" method="post" class="d-flex">
+                            {% csrf_token %}
+                            <div class="input-group me-2">
+                                <span class="input-group-text">Quantity</span>
+                                <input type="number" name="quantity" value="1" min="1" max="10" class="form-control">
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg">Add to Cart</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Items Section -->
+        {% if related_items %}
+            <div class="related-items-section mt-5">
+                <h3 class="mb-4">You might also like</h3>
+                <div class="row">
+                    {% for item in related_items %}
+                        <div class="col-md-3 col-sm-6 mb-4">
+                            <div class="card h-100 menu-card">
+                                <div class="menu-img-container">
+                                    {% if item.image %}
+                                        <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+                                    {% else %}
+                                        <img src="{% static 'images/placeholder-food.jpg' %}" class="card-img-top" alt="{{ item.name }}">
+                                    {% endif %}
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title mb-0">{{ item.name }}</h5>
+                                        <span class="price-tag">₹{{ item.price }}</span>
+                                    </div>
+                                    <p class="card-text small">{{ item.description|truncatechars:80 }}</p>
+                                </div>
+                                <div class="card-footer bg-transparent">
+                                    <a href="{% url 'menu:menu_item_detail' item.id %}" class="btn btn-outline-primary w-100">View Details</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 
